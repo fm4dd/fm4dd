@@ -1,0 +1,24 @@
+name: GitHub-Profile-Summary-Cards
+
+on:
+  schedule:
+    # Runs on the 1st day of every month at 10:00 UTC)
+    - cron: "0 10 1 * *"
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    name: generate-github-cards
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+      - uses: vn7n24fzkq/github-profile-summary-cards@release
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # Uses built-in token automatically
+          FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+        with:
+          USERNAME: ${{ github.repository_owner }}
+          # THEME is optional; generates only that one theme
+          THEME: "graywhite"
